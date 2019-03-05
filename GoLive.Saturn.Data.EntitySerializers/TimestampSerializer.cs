@@ -31,22 +31,41 @@ namespace GoLive.Saturn.Data.EntitySerializers
 
         public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, Timestamp value)
         {
-            if (!value.CreatedDate.HasValue)
+            if (!value.BypassAutomaticDatePopulation)
             {
-                value.CreatedDate = DateTime.UtcNow;
+                if (!value.CreatedDate.HasValue)
+                {
+                    value.CreatedDate = DateTime.UtcNow;
+                }
+
+                value.LastModifiedDate = DateTime.UtcNow;
             }
-
-            value.LastModifiedDate = DateTime.UtcNow;
-
+            
             context.Writer.WriteStartDocument();
 
             context.Writer.WriteName("CreatedDate");
-            context.Writer.WriteDateTime(getEpoch(value.CreatedDate.Value));
+
+            if (value.CreatedDate.HasValue)
+            {
+                context.Writer.WriteDateTime(getEpoch(value.CreatedDate.Value));
+            }
+            else
+            {
+                context.Writer.WriteNull();
+            }
 
 
             context.Writer.WriteName("LastModifiedDate");
-            context.Writer.WriteDateTime(getEpoch(value.LastModifiedDate.Value));
 
+
+            if (value.LastModifiedDate.HasValue)
+            {
+                context.Writer.WriteDateTime(getEpoch(value.LastModifiedDate.Value));
+            }
+            else
+            {
+                context.Writer.WriteNull();
+            }
 
             context.Writer.WriteEndDocument();
         }
