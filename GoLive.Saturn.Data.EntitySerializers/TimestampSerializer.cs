@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using GoLive.Saturn.Data.Entities;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
@@ -31,6 +31,12 @@ namespace GoLive.Saturn.Data.EntitySerializers
 
         public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, Timestamp value)
         {
+            if (value == null)
+            {
+                context.Writer.WriteNull();
+                return;
+            }
+
             if (!value.BypassAutomaticDatePopulation)
             {
                 if (!value.CreatedDate.HasValue)
