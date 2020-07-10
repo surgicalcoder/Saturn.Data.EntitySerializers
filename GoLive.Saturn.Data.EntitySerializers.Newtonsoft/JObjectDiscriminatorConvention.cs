@@ -4,7 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization.Conventions;
 
-namespace GoLive.Saturn.Data.EntitySerializers
+namespace GoLive.Saturn.Data.EntitySerializers.Newtonsoft
 {
     public class JObjectDiscriminatorConvention : IDiscriminatorConvention
     {
