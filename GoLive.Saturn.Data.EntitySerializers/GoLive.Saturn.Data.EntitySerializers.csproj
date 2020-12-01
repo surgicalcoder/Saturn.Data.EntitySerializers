@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="GoLive.Saturn.Crypto" Version="1.0.15" />
-    <PackageReference Include="GoLive.Saturn.Data.Entities" Version="1.0.176" />
-    <PackageReference Include="MongoDB.Bson" Version="2.10.4" />
+    <PackageReference Include="GoLive.Saturn.Data.Entities" Version="1.0.190" />
+    <PackageReference Include="MongoDB.Bson" Version="2.11.4" />
   </ItemGroup>
 
 </Project>

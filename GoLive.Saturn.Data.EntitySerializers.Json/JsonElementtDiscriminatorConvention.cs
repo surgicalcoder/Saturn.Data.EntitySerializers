@@ -2,12 +2,11 @@
 using System.Dynamic;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 
-namespace GoLive.Saturn.Data.EntitySerializers.Newtonsoft
+namespace GoLive.Saturn.Data.EntitySerializers.Json
 {
-    public class JObjectDiscriminatorConvention : IDiscriminatorConvention
+    public class JsonElementtDiscriminatorConvention : IDiscriminatorConvention
     {
         public Type GetActualType(IBsonReader bsonReader, Type nominalType)
         {

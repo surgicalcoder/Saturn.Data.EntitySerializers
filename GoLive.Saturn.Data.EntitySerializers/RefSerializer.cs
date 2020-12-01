@@ -1,4 +1,5 @@
-﻿using GoLive.Saturn.Data.Entities;
+﻿using System;
+using GoLive.Saturn.Data.Entities;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
@@ -10,7 +11,7 @@ namespace GoLive.Saturn.Data.EntitySerializers
     {
         public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, Ref<T> value)
         {
-            if (value == null || value.Id == null)
+            if (value == default || value.Id == null)
             {
                 context.Writer.WriteNull();
             }
@@ -29,6 +30,13 @@ namespace GoLive.Saturn.Data.EntitySerializers
                 return new Ref<T>(context.Reader.ReadObjectId().ToString());
             }
 
+            if (context.Reader.CurrentBsonType == BsonType.Null)
+            {
+                context.Reader.ReadNull();
+
+                return default;
+            }
+
             if (context.Reader.CurrentBsonType == BsonType.Document)
             {
                 context.Reader.ReadStartDocument();
@@ -45,11 +53,18 @@ namespace GoLive.Saturn.Data.EntitySerializers
                 }
                 catch
                 {
-                    return null;
+                    return default;
                 }
             }
 
-            return context.Reader.ReadBsonType() == BsonType.String ? new Ref<T>(context.Reader.ReadString()) : new Ref<T>(context.Reader.ReadObjectId().ToString());
+            try
+            {
+                return context.Reader.ReadBsonType() == BsonType.String ? new Ref<T>(context.Reader.ReadString()) : new Ref<T>(context.Reader.ReadObjectId().ToString());
+            }
+            catch (Exception)
+            {
+                return default;
+            }
         }
     }
 }
