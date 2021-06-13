@@ -7,7 +7,7 @@ using MongoDB.Bson.Serialization.Serializers;
 
 namespace GoLive.Saturn.Data.EntitySerializers
 {
-    public class RefSerializer<T> : SerializerBase<Ref<T>> where T : Entity
+    public class RefSerializer<T> : SerializerBase<Ref<T>> where T : Entity, new()
     {
         public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, Ref<T> value)
         {
